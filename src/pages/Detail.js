@@ -1,6 +1,7 @@
 import { Lightning, Router, Utils } from "@lightningjs/sdk";
 import { getMovieDetail, getSimilarMovies } from "../lib/apis";
 import { MovieCard } from "../components/MovieCard";
+import { MovieList } from "../components/MovieList";
 
 export class Detail extends Lightning.Component {
     static _template(){
@@ -16,9 +17,17 @@ export class Detail extends Lightning.Component {
 
     set params({movieID}){
         this.movieID = movieID
+        
+
+        this.refresh()
     }
 
-    _enable(){
+    _getFocused(){
+       return this.tag("RelatedMovies")
+    }
+
+    refresh(){
+
         this.patch({
             Poster: undefined,
             Title: undefined,
@@ -35,8 +44,8 @@ export class Detail extends Lightning.Component {
 
             this.patch({
                 Poster: {
-                    h: 1080,
-                    w: 810,
+                    h: 800,
+                    w: 600,
                     src: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
                 },
 
@@ -77,8 +86,9 @@ export class Detail extends Lightning.Component {
             console.log(data)
             this.patch({
                 RelatedMoviesTitle:{
-                    x: 830,
-                    y: 1080 - 200,
+                    x: 10,
+                    y: 880,
+                    mountY: 1,
                     text: {
                         text: "You may also like",
                         fontSize: 32,
@@ -87,28 +97,15 @@ export class Detail extends Lightning.Component {
                 },
 
                 RelatedMovies: {
-                    rect: true,
-                    h: 150,
-                    x: 830,
-                    y: 1080 - 150,
+                    type: MovieList,
+                    h: 200,
+                    y: 880,
                     color: 0xff000000,
-                    flex: {
-                        direction: "row",
-                        padding: 10,
-                    },
-                    children: data.results.map((movie) => ({
-                        type: MovieCard,
-                        w: 90,
-                        h: 120,
-                        movieID: movie.id,
-                        title: movie.original_title,
-                        src: `https://image.tmdb.org/t/p/w500/${movie.poster_path}`,
-                        flexItem:{ margin: 10 },
-                        alpha: 1
-                    }))
+                    fetchMovieUrl: `https://api.themoviedb.org/3/movie/${this.movieID}/similar?api_key=b457b58a1b4e6d67bee7382dda52cfcf`
                 }
             })
         })
+    
     }
 
     pageTransition() {
