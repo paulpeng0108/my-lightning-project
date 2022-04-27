@@ -6,9 +6,6 @@ export class MovieCard extends Lightning.Component {
             w: 300,
             h: 400,
             alpha: 0.5
-            //rect: true,
-            //src: this.bindProp("posterSrc"),
-            //movieId: this.bindProp("movieId"),
         }
     }
 
