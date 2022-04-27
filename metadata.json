@@ -1,0 +1,6 @@
+{
+  "name": "my-lightning-project",
+  "identifier": "com.clearbridge.app.my-lightning-project",
+  "version": "1.0.0",
+  "icon": "./static/icon.png"
+}
