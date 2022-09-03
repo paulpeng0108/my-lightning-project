@@ -106,15 +106,15 @@ export class MovieList extends Lightning.Component {
         }
     }
 
-    _handleUp(){
-        if(this.moveAnimation && this.moveAnimation.isActive()){
-            this.moveAnimation.finish()
-        }
+    // _handleUp(){
+    //     if(this.moveAnimation && this.moveAnimation.isActive()){
+    //         this.moveAnimation.finish()
+    //     }
 
-        this.selectedMovieIndex = 0
-        this.moveAnimation = this.getMoveAnimation()
-        this.moveAnimation.start()
-    }
+    //     this.selectedMovieIndex = 0
+    //     this.moveAnimation = this.getMoveAnimation()
+    //     this.moveAnimation.start()
+    // }
 
 
 
@@ -143,7 +143,7 @@ export class MovieList extends Lightning.Component {
         this.goToDetailPage()
     }
 
-    _handleDown(){
-        this.goToDetailPage()
-    }
+    // _handleDown(){
+    //     this.goToDetailPage()
+    // }
 }

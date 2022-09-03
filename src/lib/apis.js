@@ -10,9 +10,17 @@ async function getMovies(page){
 
 async function getMovieDetail(movieID){
     const result = await fetch(`https://api.themoviedb.org/3/movie/${movieID}?api_key=b457b58a1b4e6d67bee7382dda52cfcf`)
-
-
-    return result.json()
+    const json = await result.json()
+    return Object.assign(json, {trailers: [
+        {
+            url: "https://dash.akamaized.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd",
+            name: "trailer1"
+        },
+        {
+            url: "https://dash.akamaized.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd",
+            name: "trailer2"
+        }
+    ]})
 }
 
 async function getSimilarMovies(movieID){

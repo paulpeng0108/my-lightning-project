@@ -2,6 +2,7 @@ import { Lightning, Router, Utils } from "@lightningjs/sdk";
 import { getMovieDetail, getSimilarMovies } from "../lib/apis";
 import { MovieCard } from "../components/MovieCard";
 import { MovieList } from "../components/MovieList";
+import { PlayerButton } from "../components/Button";
 
 export class Detail extends Lightning.Component {
     static _template(){
@@ -23,11 +24,44 @@ export class Detail extends Lightning.Component {
     }
 
     _getFocused(){
-       return this.tag("RelatedMovies")
+       //return this.tag("RelatedMovies")
+       //return this.getFocuseComponent()
+
+        if(this.focusedComponent){
+            return this.focusedComponent
+        }
+    }
+
+    _handleRight(){
+        if(this.focusedComponent != this.tag("RelatedMovies") && (this.currentSelectButtonIndex + 1) < this.trailerButtons.length){
+            this.currentSelectButtonIndex = this.currentSelectButtonIndex + 1
+            this.focusedComponent = this.tag("TrailerButton" + this.currentSelectButtonIndex)
+        }
+    }
+
+    _handleLeft(){
+        if(this.focusedComponent != this.tag("RelatedMovies") && (this.currentSelectButtonIndex - 1) >= 0){
+            this.currentSelectButtonIndex = this.currentSelectButtonIndex - 1
+            this.focusedComponent = this.tag("TrailerButton" + this.currentSelectButtonIndex)
+        }
+    }
+
+    _handleUp(){
+        console.log("Detail, _handleUp")
+        let trailer = this.tag("TrailerButton" + this.currentSelectButtonIndex)
+        if(trailer){
+            this.focusedComponent = trailer
+        } 
+    }
+
+    _handleDown(){
+        let relatedMovies = this.tag("RelatedMovies")
+        if(relatedMovies){
+            this.focusedComponent = relatedMovies
+        } 
     }
 
     refresh(){
-
         this.patch({
             Poster: undefined,
             Title: undefined,
@@ -35,14 +69,11 @@ export class Detail extends Lightning.Component {
             Overview: undefined,
             RelatedMoviesTitle: undefined,
             RelatedMovies: undefined,
+            Trailer: undefined
         })
 
-        console.log(this)
-
         getMovieDetail(this.movieID).then((movie) => {
-            console.log(movie)
-
-            this.patch({
+            let patches = {
                 Poster: {
                     h: 800,
                     w: 600,
@@ -79,7 +110,27 @@ export class Detail extends Lightning.Component {
                         wordWrapWidth: 750,
                     },
                 }
+            }
+
+            this.trailerButtons = []
+            this.currentSelectButtonIndex = 0
+
+            movie.trailers.forEach((trailer, index) => {
+                let button = {
+                    x: 830 + index * 120,
+                    y: 500,
+                    w: 100,
+                    h: 50,
+                    type: PlayerButton,
+                    title: `Trailer ${index + 1}`
+                }
+                this.trailerButtons.push(button)
+                patches[`TrailerButton${index}`] = button
             })
+
+            this.patch(patches)
+
+            this.focusedComponent = this.tag("TrailerButton" + this.currentSelectButtonIndex)
         })
 
         getSimilarMovies(this.movieID).then((data) => {
@@ -108,6 +159,7 @@ export class Detail extends Lightning.Component {
     
     }
 
+
     pageTransition() {
         return 'fade';
     }
@@ -120,9 +172,9 @@ export class Detail extends Lightning.Component {
         this.goToHomePage()
     }
 
-    _handleUp(){
-        this.goToHomePage()
-    }
+    // _handleUp(){
+    //     this.goToHomePage()
+    // }
 
     
 }

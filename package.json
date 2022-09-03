@@ -2,7 +2,8 @@
   "name": "com.clearbridge.app.my-lightning-project",
   "description": "my-lightning-project",
   "dependencies": {
-    "@lightningjs/sdk": "^4.8.3"
+    "@lightningjs/sdk": "^4.8.3",
+    "dashjs": "^4.4.1"
   },
   "lint-staged": {
     "*.js": [
