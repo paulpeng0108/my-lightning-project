@@ -10,6 +10,10 @@ export class PlayerButton extends Lightning.Component {
       rect: true,
       color: 0xffaaaaaa,
       Title: {
+        x: (w) => w/2,
+        y: (h) => h/2,
+        mountX: 0.5, 
+        mountY: 0.5,
         text: {
           text: this.bindProp('title'),
           fontSize: 20,
