@@ -1,9 +1,18 @@
-import { Lightning, Utils, Router } from "@lightningjs/sdk";
+import { Lightning, Utils, Router, VideoPlayer } from "@lightningjs/sdk";
 import { MovieList } from "../components/MovieList";
+import { MyPlayer } from "../components/Player";
+import dashjs from "dashjs";
 
 
 export class Home extends Lightning.Component {
+    
     static _template(){
+
+
+        //video.src = 'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd';
+
+
+
         return {
             Background: {
                 w: 1920,
@@ -11,6 +20,7 @@ export class Home extends Lightning.Component {
                 color: 0xff000000,
                 rect: true
             },
+
             MovieList: {
                 type: MovieList,
                 h: 500,
@@ -23,12 +33,13 @@ export class Home extends Lightning.Component {
     }
 
     _getFocused(){
+        //return this.tag("Player")
         let movieList = this.tag("MovieList")
 
         if(!movieList){
             return
         }
-
+ 
         this.patch({
             Title: {
                 x: 60,
