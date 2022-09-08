@@ -80,8 +80,8 @@ export class PlayVideo extends Lightning.Component {
 
   _handleDown() {
     const currentVolume = VideoPlayer.player.getVolume() - 0.1
-    if (currentVolume > 0) {
-      VideoPlayer.player.setVolume(VideoPlayer.player.getVolume() - 0.1)
+    if (currentVolume >= 0) {
+      VideoPlayer.player.setVolume(currentVolume)
     }
   }
 }
