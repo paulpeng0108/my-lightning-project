@@ -1,7 +1,7 @@
-import { Lightning, VideoPlayer } from '@lightningjs/sdk'
+import { Lightning, Router, VideoPlayer } from '@lightningjs/sdk'
 import dashjs from 'dashjs'
 
-export class MyPlayer extends Lightning.Component {
+export class PlayVideo extends Lightning.Component {
   static _template() {
     return {}
   }
@@ -36,40 +36,52 @@ export class MyPlayer extends Lightning.Component {
     VideoPlayer.loader(myLoader.bind(this))
   }
 
-  close() {
+  set params({ url, originalPage }) {
+    console.log(url)
+    this._handleEnter(url)
+    VideoPlayer.originalPage = originalPage
+  }
+
+  _handleBack() {
     console.log('VideoPlayer.test', VideoPlayer)
     VideoPlayer.player.destroy()
     VideoPlayer.close()
     VideoPlayer.opened = false
+    Router.navigate(VideoPlayer.originalPage)
   }
 
-  play() {
+  _handleEnter(url) {
     if (VideoPlayer.opened == true) {
       VideoPlayer.playPause()
     } else {
-      const videoUrl =
-        'https://dash.akamaized.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd'
+      const videoUrl = url
       VideoPlayer.open(videoUrl)
       VideoPlayer.opened = true
     }
   }
 
-  fastForward() {
+  _handleRight() {
     console.log('right for seek')
     if (VideoPlayer.playing == true) {
       VideoPlayer.player.seek(VideoPlayer.currentTime + 10)
     }
   }
 
-  fastBackward() {
+  _handleLeft() {
     VideoPlayer.player.seek(VideoPlayer.currentTime - 10)
   }
 
-  volumeUp() {
-    VideoPlayer.player.setVolume(VideoPlayer.player.getVolume() + 0.1)
+  _handleUp() {
+    const currentVolume = VideoPlayer.player.getVolume() + 0.1
+    if (currentVolume <= 1) {
+      VideoPlayer.player.setVolume(currentVolume)
+    }
   }
 
-  volumeDown() {
-    VideoPlayer.player.setVolume(VideoPlayer.player.getVolume() - 0.1)
+  _handleDown() {
+    const currentVolume = VideoPlayer.player.getVolume() - 0.1
+    if (currentVolume > 0) {
+      VideoPlayer.player.setVolume(VideoPlayer.player.getVolume() - 0.1)
+    }
   }
 }
