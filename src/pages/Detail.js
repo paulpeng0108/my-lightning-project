@@ -125,7 +125,7 @@ export class Detail extends Lightning.Component {
       movie.trailers.forEach((trailer, index) => {
         let button = {
           x: 830 + index * 180,
-          y: 600,
+          y: 750,
           w: 150,
           h: 50,
           type: PlayerButton,
