@@ -17,7 +17,7 @@ async function getMovieDetail(movieID){
             name: "trailer1"
         },
         {
-            url: "https://dash.akamaized.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd",
+            url: "https://ll-usw2.akamaized.net/live/disk/sky/DASH-LL-sky.toml/sky.mpd",
             name: "trailer2"
         }
     ]})
