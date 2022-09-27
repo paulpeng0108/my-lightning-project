@@ -14,11 +14,15 @@ async function getMovieDetail(movieID){
     return Object.assign(json, {trailers: [
         {
             url: "https://dash.akamaized.net/dash264/TestCases/1a/sony/SNE_DASH_SD_CASE1A_REVISED.mpd",
-            name: "trailer1"
+            name: "trailer-vod"
         },
         {
             url: "https://ll-usw2.akamaized.net/live/disk/sky/DASH-LL-sky.toml/sky.mpd",
-            name: "trailer2"
+            name: "trailer-live1"
+        },
+        {
+            url: "https://akamaibroadcasteruseast.akamaized.net/cmaf/live/657078/akasource/out.mpd",
+            name: "trailer-live2"
         }
     ]})
 }
