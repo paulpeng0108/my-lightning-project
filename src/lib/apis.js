@@ -23,6 +23,10 @@ async function getMovieDetail(movieID){
         {
             url: "https://akamaibroadcasteruseast.akamaized.net/cmaf/live/657078/akasource/out.mpd",
             name: "trailer-live2"
+        },
+        {
+            url: "http://comcastpoc.akamaized.net/dash/live-ull/2027150/Service3/manifest.mpd",
+            name: "SKY news"
         }
     ]})
 }
