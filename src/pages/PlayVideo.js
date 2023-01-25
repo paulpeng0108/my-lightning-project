@@ -24,16 +24,22 @@ export class PlayVideo extends Lightning.Component {
       videoEl.style['height'] = '1080px'
 
       return new Promise(resolve => {
-        console.log(videoEl)
+
         VideoPlayer.player = dashjs.MediaPlayer().create()
 
-        VideoPlayer.player.initialize(videoEl, url, false)
-        //VideoPlayer.player.setMute(true)
+        /* restart playback in muted mode when auto playback was not allowed by the browser */
+        VideoPlayer.player.on(dashjs.MediaPlayer.events.PLAYBACK_NOT_ALLOWED, function (data) {
+            console.log('Playback did not start due to auto play restrictions. Muting audio and reloading');
+            videoEl.muted = true;
+            VideoPlayer.player.initialize(videoEl, url, true);
+        });
+
+        VideoPlayer.player.initialize(videoEl, url, true)
         resolve()
       })
     }
 
-    VideoPlayer.loader(myLoader.bind(this))
+    VideoPlayer.loader(myLoader)
   }
 
   set params({ url, originalPage }) {
